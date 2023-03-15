@@ -1,19 +1,16 @@
 import fastf1 as ff1
 from fastf1 import plotting
-
-from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 import plotly.express as px
-
 import numpy as np
 import pandas as pd
 
-# Enable the cache
+# Enable FastF1 cache
 ff1.Cache.enable_cache('cache')
 
-year = 2022
-grand_prix = 'Jeddah'
-session = 'R'
+YEAR = 2022
+GRAND_PRIX = 'Jeddah'
+SESSION = 'R'
 
 compound_colors = {
     'SOFT': '#FF3333',
@@ -24,7 +21,7 @@ compound_colors = {
 }
 
 # Load the session data
-race = ff1.get_session(year, grand_prix, session)
+race = ff1.get_session(YEAR, GRAND_PRIX, SESSION)
 race.load()
 
 laps = race.laps
@@ -82,12 +79,6 @@ results = [driver for driver in race.results['Abbreviation']]
 
 data = []
 
-# Track Interruptions like Safety Car & Virtual Safety Car
-# for interruption in laps_interrupted:
-#     ax.axvspan(interruption[0], interruption[1], fc='#fcf808',
-#                zorder=-1.0, hatch='///' if interruption[2] == 'VSC' else '',
-#                label=interruption[2])
-
 # Stint compound stacked by driver
 for driver in race.results['Abbreviation']:
     stints = driver_stints.loc[driver_stints['Driver'] == driver]
@@ -106,7 +97,7 @@ for driver in race.results['Abbreviation']:
             marker_pattern_size=5
         ))
 
-layout = dict(title_text=f'{grand_prix} {year} - Race Tyre Strategy',
+layout = dict(title_text=f'{GRAND_PRIX} {YEAR} - Race Tyre Strategy',
               title_x=0.5,
               barmode='stack',
               yaxis={'title': 'Drivers'},
